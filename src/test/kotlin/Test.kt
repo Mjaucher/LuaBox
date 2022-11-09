@@ -29,4 +29,18 @@ class LuaBoxTest {
             LuaValue.valueOf(2),
             LuaValue.valueOf(2)
         )
+
+    @Test
+    fun `add new index`() {
+
+        luaBox.addIndex("someObject", JustObject)
+        luaBox.addIndex("greeting", JustObject.greeting)
+
+        testScript.callFunction("hi")
+    }
+
+    object JustObject {
+        const val greeting = "Hello!"
+        fun printHi() = println("Hi!")
+    }
 }
