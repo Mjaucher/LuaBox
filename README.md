@@ -15,7 +15,7 @@ val script = luaBox.newScript("Script.lua")
 script.call()
 ```
 
-In this case, the `script` should be located in `C:/Users/User/LuaBoxFolder/Script.lua`
+In this case, the `Script.lua` should be located in `C:/Users/User/LuaBoxFolder/Script.lua`
 
 ### 3. Call function:
 
