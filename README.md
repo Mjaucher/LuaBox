@@ -15,7 +15,7 @@ class ScriptCore: LuaBox(
 
 ### 2. Add new indexes:
 
-If you want to add some Kotlin or Java object to your lua script use the `addIndex(key: String, value: Any)` function:
+If you want to add some Kotlin or Java object to your lua scripts use the `addIndex(key: String, value: Any)` function:
 
 *Kotlin:*
 
