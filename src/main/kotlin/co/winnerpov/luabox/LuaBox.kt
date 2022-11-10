@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager
 import org.luaj.vm2.LuaValue
 import org.luaj.vm2.lib.jse.CoerceJavaToLua
 
-class LuaBox(val scriptFolder: String) {
+open class LuaBox(val path: String) {
 
     private val logger = LogManager.getLogger("LuaBox")
     val indexes = hashMapOf<String, LuaValue>()

@@ -5,42 +5,39 @@ import org.luaj.vm2.LuaValue
 import java.io.File
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class LuaBoxTest {
+class ScriptCore: LuaBox(
+    path = "${System.getProperty("user.dir")}${File.separator}luabox${File.separator}"
+) {
 
-    private val generalPath = "${System.getProperty("user.dir")}${File.separator}luabox${File.separator}"
-    private val luaBox = LuaBox(generalPath)
-    private val testScript = luaBox.newScript("Main.lua")
+    private val mainScript = newScript("Main.lua")
 
     init {
 
-        println(testScript.path())
+        println(path)
+
+        // adding new indexes
+        addIndex("kotlinObject", Companion)
+        addIndex("greeting", greeting)
     }
 
     @Test
-    fun `call script`() = testScript.call()
+    fun `call script`() = mainScript.call()
 
     @Test
-    fun `call function from script`() = testScript.callFunction("helloWorld")
+    fun `call function from script`() = mainScript.callFunction("helloWorld")
 
     @Test
     fun `call function with variable args`() =
-        testScript.callFunction(
+        mainScript.callFunction(
             "sum",
             LuaValue.valueOf(2),
             LuaValue.valueOf(2)
         )
 
-    @Test
-    fun `add new index`() {
+    companion object {
 
-        luaBox.addIndex("someObject", JustObject)
-        luaBox.addIndex("greeting", JustObject.greeting)
-
-        testScript.callFunction("hi")
-    }
-
-    object JustObject {
         const val greeting = "Hello!"
+
         fun printHi() = println("Hi!")
     }
 }

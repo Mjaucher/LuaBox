@@ -1,11 +1,16 @@
 # LuaBox
-Helper for call lua scripts on Kotlin, Java and other JVM languages!
+Helper for call lua scripts on Kotlin!
 
-### 1. Initialize LuaBox:
+Big thanks to [Luaj](https://github.com/luaj/luaj) library!
+
+### 1. Create a class for working with LuaBox:
 
 ```kotlin
-val luaBoxFolderPath = "C:/Users/User/LuaBoxFolder/"
-val luaBox = LuaBox(luaBoxFolderPath)
+class ScriptCore: LuaBox(
+    path = "${System.getProperty("user.home")}${File.separator}LuaBoxFolder${File.separator}"
+) {
+    
+}
 ```
 
 ### 2. Add new indexes:
@@ -15,26 +20,30 @@ If you want to add some Kotlin or Java object to your lua script use the `addInd
 *Kotlin:*
 
 ```kotlin
-object KotlinObject {
+// ScriptCore.kt
+
+companion object {
     const val greeting = "Hello!"
     fun printHi() = println("Hi!")
 }
 
-luaBox.addIndex("kotlinObj", KotlinObject)
-luaBox.addIndex("greeting", KotlinObject.greeting)
+init {
+    addIndex("kotlinObject", Companion)
+    addIndex("greeting", greeting)
+}
 ```
 
 *Lua:*
 
 ```lua
-kotlinObj:printHi()
+kotlinObject:printHi()
 print(greeting) --Hello!
 ```
 
 ### 3. Call script:
 
 ```kotlin
-val script = luaBox.newScript("Script.lua")
+val script = ScriptCore().newScript("Script.lua")
 script.call()
 ```
 
@@ -45,7 +54,7 @@ In this case, the `Script.lua` should be located in `C:/Users/User/LuaBoxFolder/
 *Kotlin:*
 
 ```kotlin
-val script = luaBox.newScript("Script.lua")
+val script = ScriptCore().newScript("Script.lua")
 
 script.callFunction("function_name")
 

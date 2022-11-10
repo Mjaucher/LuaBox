@@ -7,7 +7,7 @@ function sum(number1, number2)
 end
 
 function hi()
-    someObject:printHi()
+    kotlinObject:printHi()
     print(greeting)
 end
 

@@ -39,7 +39,7 @@ class LuaScript(
         LuaC.install(globals)
     }
 
-    fun path(): String = luaBox.scriptFolder
+    fun path(): String = luaBox.path
 
     fun call() {
 
@@ -55,11 +55,11 @@ class LuaScript(
 
     fun callFunction(functionName: String, vararg luaValues: LuaValue) {
 
-        val path = LuaValue.valueOf(path() + fileName)
+        val chunk = globals.loadfile(path() + fileName)
 
         try {
             setIndexes()
-            globals["dofile"].call(path)
+            chunk.call()
             globals[functionName].invoke(luaValues)
         } catch (exception: IOException) {
             exception.printStackTrace()
